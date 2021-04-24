@@ -1,5 +1,6 @@
 import React, {useContext} from 'react';
 import { ThemeContext } from '../contexts/ThemeContext';
+import { TodoListContext } from '../contexts/TodoListContext';
 
 /* class TodoList extends React.Component {
     static contextType = ThemeContext;
@@ -18,13 +19,25 @@ import { ThemeContext } from '../contexts/ThemeContext';
 } */
 
 const TodoList = () => {
+    const {todos} = useContext(TodoListContext);
     const {isDarkTheme, darkTheme, lightTheme, changeTheme} = useContext(ThemeContext);
     const theme = isDarkTheme ? darkTheme : lightTheme;
     return (
             <div style={{background:theme.background, color:theme.text, height:'140px', textAlign:'center'}} > 
-                <p className="item">Plan the family trip</p>
+            {
+                todos.length ? (
+                    todos.map((todo) => {
+                        return (
+                            <p key={todo.id} className="item">{todo.text}</p>
+                        )
+                    })
+                ) : (
+                    <div>You have no todos</div> 
+                )
+            }
+                {/* <p className="item">Plan the family trip</p>
                 <p className="item">Go for a shopping</p>
-                <p className="item">Go for a walk</p>
+                <p className="item">Go for a walk</p> */}
                 <button className="ui button primary" onClick={changeTheme}>change the theme</button>
             </div>  
     );
